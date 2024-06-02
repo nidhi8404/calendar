@@ -29,7 +29,12 @@ function getEvent() {
         editable: true,
         dayMaxEvents: true, // allow "more" link when too many events
         selectable: true,
-        events: events
+        events: events,
+        select: function(datetime){
+            $("#event_start_date").val(datetime.start.toISOString().split('T')[0]);
+            $("#event_end_date").val(datetime.end.toISOString().split('T')[0]);
+            $('#event_entry_modal').modal('show');
+        },
       });
 
       calendar.render();
