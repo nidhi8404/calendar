@@ -37,6 +37,7 @@
                 </div>
                 <form action="" method="post" id="submit_event_form">
                     <div class="modal-body">
+                    <input type="hidden" id="event_id" name="event_id" />
                         <div class="img-container">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -64,6 +65,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save Event</button>
+                        <button type="button" class="btn btn-success" id="update_event" style="display: none;">Update Event</button>
+                        <button type="button" class="btn btn-danger" id="delete_event" style="display: none;" >Delete Event</button>
                     </div>
                 </form>
             </div>

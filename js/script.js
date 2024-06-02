@@ -31,12 +31,26 @@ function getEvent() {
         selectable: true,
         events: events,
         select: function (datetime) {
-            $(".clear-form").val('');
+          $(".clear-form").val("");
           $("#event_start_date").val(
             datetime.start.toISOString().split("T")[0]
           );
           $("#event_end_date").val(datetime.end.toISOString().split("T")[0]);
           $("#event_entry_modal").modal("show");
+          $("#delete_event").hide();
+        },
+
+        eventClick: function(info) {
+          // Populate the modal with event data
+          $("#event_name").val(info.event.title);
+          $("#event_start_date").val(
+            info.event.start.toISOString().split("T")[0]
+          );
+          $("#event_end_date").val(info.event.end.toISOString().split("T")[0]);
+          $("#event_id").val(info.event.extendedProps.event_id);
+          $("#event_entry_modal").modal("show");
+          $("#delete_event").show(); 
+          $("#update_event").show(); 
         },
       });
 
@@ -61,3 +75,40 @@ $("body").delegate("#submit_event_form", "submit", function (e) {
     },
   });
 });
+
+$("body").on("click", "#delete_event", function (e) {
+  e.preventDefault();
+  $.ajax({
+    type: "POST",
+    url: "function.php?type=delete",
+    data: {
+      event_id: $("#event_id").val(),
+    },
+    dataType: "json",
+    success: function (data) {
+      alert(data.message);
+      $("#event_entry_modal").modal("hide");
+      getEvent();
+    },
+  });
+});
+
+$("body").on("click", "#update_event", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "function.php?type=update",
+      data: {
+        event_id: $("#event_id").val(),
+        event_name: $("#event_name").val(),
+        event_start_date: $("#event_start_date").val(),
+        event_end_date: $("#event_end_date").val(),
+      },
+      dataType: "json",
+      success: function (data) {
+        alert(data.message);
+        $("#event_entry_modal").modal("hide");
+        getEvent();
+      },
+    });
+  });
