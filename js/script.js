@@ -38,6 +38,7 @@ function getEvent() {
           $("#event_end_date").val(datetime.end.toISOString().split("T")[0]);
           $("#event_entry_modal").modal("show");
           $("#delete_event").hide();
+          $("#update_event").hide();
         },
 
         eventClick: function(info) {
